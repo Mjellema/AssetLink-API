@@ -1,0 +1,24 @@
+## GENERIC ##
+
+# git merge conflict
+*.orig
+
+# windows
+Thumbs.db
+
+# sass cache
+*.scssc
+
+# mysql workbench
+*.mwb.bak
+
+
+## SPECIFIC ##
+
+# runtime log files
+runtime/log/*
+!runtime/log/.gitkeep
+
+# config mode
+data/assetLink/config-mode.php
+data/assetLink/config-environment.php

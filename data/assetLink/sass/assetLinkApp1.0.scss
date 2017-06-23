@@ -1,0 +1,7 @@
+$dir: 'ltr';
+@import 'SassyLists'; // is dependency of bite-inheritance
+@import '../../../lib/tysonmatanich/directional'; // support right-to-left languages
+@import '../../../lib/bite/code/sass/bite/reset';
+@import '../../../lib/bite/code/sass/bite/em';
+@import '../../../lib/bite/code/sass/bite/inheritance';
+@import 'assetLink1.0';

@@ -1,0 +1,2 @@
+# * * * * * php /var/www/assetLink/live/code/php/assetLink/cronScript.php > /dev/null 2>&1
+* * * * * php /var/www/assetLink/live/code/php/assetLink/cronScript.php >> /home/ubuntu/deploy/logs/cron.log 2>&1

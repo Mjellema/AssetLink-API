@@ -1,0 +1,763 @@
+/**
+ *	@dependency bite-reset
+ *	@dependency bite-em
+ *	@dependency bite-inheritance
+ *	@dependency tysonmatanich/directional
+**/
+
+$black: #000000;
+$white: #ffffff;
+// http://chir.ag/projects/name-that-color/
+$blackShark: #1e2021;
+$blueCatskillWhite: #f5f7fa;
+$blueCerulean: #0099e5;
+$blueHavelockBlue: #5ca9e2;
+$greyAbbey: #4c555a;
+$greyNevada: #6c7378;
+$greyRegentGray: #939da3;
+$greyGallery: #eaeaea;
+$greyWhite: #fefefe;
+$greyMystic: #e1e8ed;
+$orangeTangerine: #f08d00;
+$greenJade: #00b680;
+$purple: #640487;
+$pinkRazzmatazz: #d4005e;
+
+$fontYocto: 0px;
+$fontZepto: 0px;
+$fontAtto: 0px;
+$fontFemto: 0px;
+$fontPico: 0px;
+$fontNano: 0px;
+$fontMicro: 0px;
+$fontMilli: 12px;
+$fontCenti: 13px;
+$fontDeci: 14px;
+$fontBase: 15px;
+$fontDeca: 16px;
+$fontHecto: 18px;
+$fontKilo: 24px;
+$fontMega: 0px;
+$fontGiga: 0px;
+$fontTera: 0px;
+$fontPeta: 0px;
+$fontExa: 0px;
+$fontZetta: 0px;
+$fontYotta: 0px;
+
+// @setting bite-em
+$bite_setting_baseFontSize: $fontBase;
+
+$pagePadding: 60px;
+$pagePaddingSmall: 15px;
+$pageWidth: 1280px;
+
+// effects
+
+@mixin lineBehind($color) {
+	display: table;
+	white-space: nowrap;
+	
+	&:before, &:after {
+		border-top: 1px solid $color;
+		content: '';
+		display: table-cell;
+		position: relative;
+		top: 0.5em;
+		width: 45%;
+	}
+	//&:before { #{$right}: 1.5%; }
+	//&:after { #{$left}: 1.5%; }
+	span {
+		margin-#{$left}: 10px;
+		margin-#{$right}: 10px;
+	}
+}
+
+@include item(verticalCenterWrapper) {
+	display: table;
+	width: 100%;
+	height: 100%;
+	
+	@include item(verticalCenter) {
+		display: table-cell;
+		//position: relative;
+		vertical-align: middle;
+	}
+}
+
+// all/root
+
+@include item(all) {
+	@extend %bite-avoidParentChildMarginCollapse;
+	
+	// accessibility focus outline
+	// @note this doesn't outline elements without an explicit item style (e.g. <input> without a style defined in this css
+	._bite-keyboardFocus &:focus {
+		outline: 1px dotted $greyNevada;
+	}
+}
+@include item(root) {
+	font-family: Ubuntu, Tahoma, Arial, sans-serif;
+	font-size: em($fontBase, $bite_setting_browserBaseFontSize);
+	letter-spacing: em(0.15px);
+	line-height: 1.7;
+	color: $greyAbbey;
+}
+
+// reusable items
+
+// @todo maybe use margin collapse mixin for typography? (titles/subtitles/paragraphs)
+
+.clearfix {
+	// @note use the clearfix class sparingly (only temporarily)
+	// instead use @extend %bite-clearfix in your own custom item
+	@extend %bite-clearfix;
+}
+
+.clear {
+	clear: both;
+}
+
+.hide {
+	display: none;
+}
+
+@include item(tooltipHolder) {
+	&:hover:after,
+	&:focus:after {
+		@extend %tooltip;
+	}
+}
+@include item(tooltip) {
+	content: attr(data-tooltip);
+	position: absolute;
+	// @note don't specify left or right
+	bottom: 10px;
+	padding: 15px 15px;
+	min-width: 230px;
+	border-radius: 7px;
+	font-size: em($fontMilli);
+	font-weight: normal;
+	background-color: rgba(0, 0, 0, .8);
+	color: $white;
+	z-index: 1;
+}
+
+@include item(checkbox) {
+	float: $left;
+	margin-#{$right}: em(10px);
+}
+@include item(label) {
+	float: $left;
+	//margin-bottom: em(10px);
+	width: calc(100% - #{em(15px)} - #{em(10px)}); // subtract width and margin of checkbox
+}
+
+@include item(invisibleLink) {
+	color: transparent;
+	text-indent: -99999px;
+}
+@include item(link) {
+	color: $blueCerulean;
+	text-decoration: none;
+	cursor: pointer;
+	
+	&:hover {
+		color: $blueHavelockBlue;
+	}
+}
+@include item(blockLink, link) {
+	display: block;
+}
+
+@include item(button) {
+	display: inline-block; // allows margin and avoids padding bleed
+	padding: 10px 20px;
+	text-align: center;
+	//height: 43px;
+	border: 1px solid $greyAbbey;
+	border-radius: 2px;
+	color: $white;
+	background-color: $greyAbbey;
+	cursor: pointer;
+	
+	transition: all 0.2s ease-in-out;
+	
+	&:hover {
+		color: $black;
+		background-color: $white;
+		border-color: $white;
+	}
+}
+@include item(button_small) { // < variation
+}
+@include item(button_otherColor) { // < variation
+}
+
+@include item(sideButton) {
+	display: inline-block;
+	padding: 1px 7px;
+	border-radius: 4px;
+	font-weight: bold;
+	color: $white;
+	//background-color: $greenJade;
+	cursor: pointer;
+	
+	font-size: em($fontMilli);
+}
+@include item(sideButton_green) {
+	background-color: $greenJade;
+}
+
+@include item(textInput) {
+	padding: side-values(em(10px) em(5px) em(10px) em(10px));
+	width: 372px;
+	height: 53px;
+	//font-weight: bold;
+	text-align: $left;
+	color: $black;
+	border: 1px solid $greyAbbey;
+	border-radius: 2px;
+	//background: url('../../img/style/textfield.png') center center no-repeat;
+	//background-size: contain;
+	background-color: $white;
+	
+	&:hover, &:focus {
+		background-color: $black;
+	}
+	
+	&._error { // < modifier
+		color: $black;
+	}
+}
+@include item(textInput_small) { // < variation
+	max-width: 130px;
+}
+@include item(textArea, textInput) {
+	width: 100%;
+	max-width: 600px;
+	height: 200px;
+	//padding: 40px;
+	//background-image: url('../../img/style/textarea.png');
+}
+
+@include item(selectInput) {
+	padding: side-values(em(9px) em(5px) em(9px) em(8px));
+	width: 372px;
+	border: 1px solid $greyAbbey;
+	border-radius: 2px;
+	color: $black;
+	background-color: $white;
+}
+
+@include item(list) {
+	margin-#{$left}: 20px; // to push the discs back 'inside'
+	
+	&._indent {
+		li {
+			margin-#{$left}: 20px;
+		}
+	}
+	&._spaced {
+		li {
+			margin-bottom: 20px;
+		}
+	}
+	&._numbered {
+		li {
+			list-style-type: decimal;
+		}
+	}
+	&._checked {
+		li {
+			list-style-type: none;
+			
+			&:before {
+				content: '✔ ';
+			}
+		}
+	}
+	&._attention {
+		li {
+			/*background-color: #dbad24;*/
+			text-decoration: underline;
+		}
+	}
+	
+	li {
+		// using 'outside' instead of 'inside' because with 'inside' the next line will not be indented
+		list-style: disc outside none;
+		
+		&:last-child {
+			margin-bottom: auto;
+		}
+		
+		&._emphasis {
+			font-size: em($fontKilo);
+			font-weight: bold;
+		}
+	}
+}
+@include item(table) {
+	width: 100%;
+	border-collapse: collapse;
+	
+	td {
+		border: 1px solid $greyAbbey;
+	}
+}
+@include item(word) {
+	white-space: nowrap;
+}
+@include item(money) {
+	white-space: nowrap;
+}
+@include item(error) {
+	margin-bottom: 10px;
+	color: $black;
+	
+	&:before {
+		content: '! ';
+	}
+}
+
+@include item(loader) {
+	// http://preloaders.net/en/circular
+	// type: Mini Balls
+	// foreground: #FFFFFF
+	// background: #FFFFFE
+	// size: 64x64
+	
+	display: none; // hide at first
+	margin: 20px 0;
+	height: 50px;
+	background: url('../../img/style/loader.gif') center center no-repeat;
+	background-size: contain;
+}
+
+@include item(code) {
+	@at-root span#{&} {
+		display: inline-block;
+		line-height: inherit;
+	}
+	padding: 0 5px;
+	tab-size: 4;
+	white-space: pre;
+    white-space: pre-wrap;
+    word-break: break-word;
+	border: 1px solid #e4e4e4;
+	border-radius: 4px;
+	font-family: 'Source Code Pro', Monaco, Consolas, 'Andale Mono', 'DejaVu Sans Mono', 'Lucida Console', monospace; // @note Consolas might not look good with ClearType off
+	//font-family: 'Lucida Console', Monaco, 'DejaVu Sans Mono', monospace;
+	color: $orangeTangerine;
+	background-color: $blueCatskillWhite;
+	
+	font-size: em($fontCenti);
+	line-height: 1.4;
+	letter-spacing: 0;
+}
+@include item(codeInline, code) {
+	display: inline-block;
+	line-height: inherit;
+}
+
+// @setting bite-inheritance
+$bite_setting_allSuperClass: all;
+/*
+@include item(form) {
+	@include item(title) {
+		margin-bottom: 13px;
+		font-size: em($fontHecto);
+		letter-spacing: em(3.6px, $fontHecto);
+		text-align: center;
+		text-transform: uppercase;
+	}
+	@include item(fieldSet) {
+		float: $left;
+		margin-#{$right}: 15px;
+		margin-bottom: 15px;
+		
+		@include item(title) {
+			margin-bottom: 10px;
+		}
+	}
+	@include item(field) {
+		@extend %bite-clearfix;
+		clear: $left;
+		display: block; // for <label> as a field wrapper
+		margin-bottom: 15px;
+		
+		&._horizontal { // < modifier
+			clear: none;
+			float: $left;
+			margin-#{$right}: 15px;
+			width: 300px;
+		}
+		&._small { // < modifier
+			width: 130px;
+		}
+		
+		@include item(name) {
+			margin-bottom: 10px;
+			text-align: center;
+		}
+		@include item(textInput, textInput) {
+			display: block; // center
+		}
+		@include item(textInputSmall, textInput) {
+			@include extend(textInput_small);
+		}
+		@include item(textArea, textArea) {
+		}
+		@include item(selectInput, selectInput) {
+			display: block; // center
+		}
+		@include item(checkbox, checkbox) {
+		}
+		@include item(label, label) {
+		}
+		@include item(error, error) {
+			text-align: center;
+		}
+	}
+	@include item(error, error) {
+	}
+	@include item(submitLink, button) {
+		display: block; // because it's a <button> element, it gets centered
+		margin-bottom: 20px;
+	}
+	@include item(submitLoader, loader) {
+	}
+}
+@include item(formBlock, titleBlock) {
+	@include extend(form);
+}
+*/
+
+
+@include item(actionPropertyList) {
+	margin-bottom: 20px;
+	
+	// reusable style
+	@include item(typesButton, sideButton) {
+		@include extend(sideButton_green);
+		margin-top: 5px;
+	}
+	@include item(optional) {
+		color: $purple;
+	}
+	
+	
+	@include item(header) {
+		@extend %bite-clearfix;
+		padding-bottom: 5px;
+		border-bottom: 1px solid $greyMystic;
+		
+		@include item(title) {
+			float: left;
+			margin-right: 20px;
+			font-size: em($fontHecto);
+			text-transform: uppercase;
+			color: $greyNevada;
+		}
+		@include item(types) {
+			
+			@include item(checkbox) {
+				// checkbox hack
+				// hide the checkbox while keeping it in place for the :focus
+				float: left;
+				width: 0;
+				height: 0;
+				
+				._bite-keyboardFocus &:focus ~ .css-label {
+					// fake focus of label
+					outline: 1px dotted $greyNevada;
+				}
+				&:checked ~ .css-toggle {
+					display: block;
+					// @note needs onclick="return false;" if it's inside the <label>
+				}
+			}
+			@include item(label, actionPropertyList-typesButton) {
+			}
+			@include item(typeLegend) {
+				display: none;
+				margin-bottom: 10px;
+				//border-bottom: 1px solid $blueHavelockBlue;
+				background-color: $blueCatskillWhite;
+				
+				@include item(type) {
+					@extend %bite-clearfix;
+					padding: 15px;
+					border-bottom: 1px solid $greyGallery;
+					
+					@include item(name) {
+						float: left;
+						margin-right: 20px;
+						width: 200px;
+						text-align: right;
+						
+						//font-size: em($fontCenti);
+						color: $greyRegentGray;
+					}
+					@include item(info) {
+						float: left;
+						width: calc(100% - 200px - 20px); // 200px = width of name, 20px = right margin of name
+						
+						@include item(description) {
+						}
+						@include item(example) {
+							@include item(title) {
+								display: inline;
+								margin-right: 5px;
+								font-size: em($fontCenti);
+								font-style: italic;
+								color: $greyRegentGray;
+							}
+							@include item(value) {
+								display: inline;
+								font-size: em($fontCenti);
+								color: $greenJade;
+							}
+						}
+						@include item(rules) {
+							@include item(rule, codeInline) {
+								border-color: $purple;
+								color: $purple;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	@include item(properties) {
+		clear: both;
+		
+		@include item(property) {
+			@extend %bite-clearfix;
+			padding: 15px;
+			border-bottom: 1px solid $greyGallery;
+			
+			@include item(specifics) {
+				float: left;
+				margin-right: 20px;
+				width: 200px;
+				text-align: right;
+				
+				@include item(name, codeInline) {
+					font-weight: bold;
+				}
+				@include item(type) {
+					font-size: em($fontCenti);
+					color: $greyRegentGray;
+				}
+				@include item(optional, actionPropertyList-optional) {
+					font-size: em($fontCenti);
+				}
+			}
+			@include item(info) {
+				float: left;
+				margin-bottom: 15px;
+				width: calc(100% - 200px - 20px); // 200px = width of specifics, 20px = right margin of specifics
+				
+				@include item(description) {
+				}
+				@include item(enum) {
+					@include item(value, codeInline) {
+						border-color: $greenJade;
+						color: $greenJade;
+					}
+				}
+			}
+			@include item(children) {
+				clear: both;
+				margin-top: 20px;
+				margin-left: 200px + 20px; // 200px = width of specifics, 20px = right margin of specifics
+				border: 1px dotted $greyAbbey;
+				background: $greyWhite;
+				
+				// nested children (1 level deep)
+				& .sectionBlock-section-actionPropertyList-properties-property-children {
+					background: $white;
+				}
+				
+				@include item(title) {
+					margin-left: 10px;
+					padding-top: 5px;
+					font-size: em($fontCenti);
+					text-transform: uppercase;
+					color: $greyNevada;
+				}
+			}
+		}
+	}
+}
+@include item(actionResult, actionPropertyList) {
+	@include item(result) {
+		@extend %bite-clearfix;
+		padding: 15px;
+		border-bottom: 1px solid $greyGallery;
+		
+		@include item(type) {
+			float: left;
+			margin-right: 20px;
+			width: 200px;
+			color: $greyRegentGray;
+		}
+		@include item(description) {
+			float: left;
+			width: calc(100% - 200px - 20px); // 200px = width of specifics, 20px = right margin of specifics
+		}
+	}
+}
+@include item(actionError, actionPropertyList) {
+	@include item(errors, actionPropertyList-properties) {
+		@include item(error, actionPropertyList-properties-property) {
+			@include item(specifics) {
+				@include item(name) {
+					color: $pinkRazzmatazz;
+				}
+			}
+			@include item(reasons, actionPropertyList-properties-property-children) {
+				
+				// nested reasons (1 level deep)
+				& .sectionBlock-section-actionError-errors-error-reasons {
+					background: $white;
+				}
+				// children inside reasons (1 level deep)
+				& .sectionBlock-section-actionError-errors-error-children {
+					background: $white;
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+@include item(pageBlock, root) {
+	padding-left: $pagePadding;
+	padding-right: $pagePadding;
+	max-width: $pageWidth + $pagePadding + $pagePadding; // @note add the padding because of border-sizing
+	
+	@media screen and (max-width: 575px) {
+		padding-left: $pagePaddingSmall;
+		padding-right: $pagePaddingSmall;
+	}
+}
+@include item(fullWidthPageBlock, pageBlock) {
+	max-width: none;
+	
+	@include item(pageCenter) {
+		// @note non semantic element to be able to have a full width background
+		max-width: $pageWidth;
+	}
+}
+@include item(titleBlock, pageBlock) {
+	@include item(title) {
+		margin-bottom: 20px;
+		font-size: em($fontKilo);
+		line-height: 1.3;
+	}
+	@include item(subTitle) {
+		//margin-bottom: 15px;
+		font-size: em($fontHecto);
+	}
+	@include item(text) {
+		margin-bottom: 20px;
+	}
+}
+
+@include item(sectionBlock, pageBlock) {
+	@extend %bite-clearfix;
+	padding-top: 40px;
+	
+	@include item(navigation) {
+		float: left;
+		padding-right: 15px;
+		width: 250px;
+		
+		@include item(header) {
+			margin-bottom: 25px;
+			font-size: $fontDeca;
+			color: $blackShark;
+		}
+		@include item(subjects) {
+			@include item(subject) {
+				margin-bottom: 25px;
+				
+				@include item(title) {
+					margin-bottom: 8px;
+					font-size: $fontDeca;
+					color: $blackShark;
+				}
+				@include item(chapters) {
+					@include item(chapter) {
+						display: block;
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+						color: $greyNevada;
+						
+						&:hover {
+							text-decoration: underline;
+						}
+						
+						&._selected { // < modifier
+							color: $blueHavelockBlue;
+						}
+					}
+				}
+			}
+		}
+	}
+	@include item(content) {
+		float: left;
+		width: calc(100% - 250px); // 250px = width of navigation
+	}
+	
+	@include item(section) {
+		margin-bottom: 40px;
+		
+		@include item(title, titleBlock-title) {
+		}
+		@include item(subTitle, titleBlock-subTitle) {
+		}
+		@include item(text, titleBlock-text) {
+		}
+		@include item(attention) {
+			margin-bottom: 20px;
+			padding: 10px;
+			border-left: 3px solid $pinkRazzmatazz;
+			font-size: em($fontMilli);
+			font-weight: bold;
+		}
+		
+		@include item(actionPropertyList, actionPropertyList) {
+		}
+		@include item(actionResult, actionResult) {
+		}
+		@include item(actionError, actionError) {
+		}
+		
+		@include item(example) {
+			margin-bottom: 30px;
+			
+			@include item(title) {
+				margin-bottom: 10px;
+				padding-bottom: 10px;
+				border-bottom: 1px dotted $greyAbbey;
+				font-weight: bold;
+				color: $black;
+			}
+			@include item(content, code) {
+			}
+		}
+	}
+}
